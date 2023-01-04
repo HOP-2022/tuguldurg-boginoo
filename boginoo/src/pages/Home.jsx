@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Header } from "../components/Header";
+import { RecentLink } from "../components/RecentLink";
 import logo from "../assets/boginoo-logo.svg";
 import credit from "../assets/credit.svg";
 import "../assets/App.css";
@@ -12,6 +13,7 @@ export const Home = () => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      flexDirection: "column",
     },
     body: {
       width: "789px",
@@ -49,6 +51,7 @@ export const Home = () => {
       textAlign: "center",
       padding: "10px",
       fontFamily: "Ubuntu",
+      fontWeight: "700",
       fontSize: "20px",
       borderRadius: "100px",
     },
@@ -60,6 +63,9 @@ export const Home = () => {
       backgroundImage: `url(${credit})`,
     },
   };
+  const [toggleRecent, setToggleRecent] = useState(false);
+  // const link = useRef();
+  const [link, setLink] = useState();
   return (
     <>
       <Header />
@@ -72,11 +78,25 @@ export const Home = () => {
               style={styles.input}
               id="inputId"
               placeholder="https://www.web-huudas.mn"
-              type="text"
+              onChange={(e) => {
+                setLink(e.target.value);
+              }}
             />
-            <div style={styles.shortenButton}>Богиносгох</div>
+            <div
+              style={styles.shortenButton}
+              onClick={() => {
+                if (link != "") {
+                  setToggleRecent(true);
+                } else {
+                  setToggleRecent(false);
+                }
+              }}
+            >
+              Богиносгох
+            </div>
           </div>
         </div>
+        {toggleRecent ? <RecentLink link={link} /> : ""}
       </div>
     </>
   );

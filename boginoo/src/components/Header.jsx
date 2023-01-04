@@ -14,6 +14,7 @@ export const Header = () => {
     helpButton: {
       color: "#02B589",
       fontFamily: "Ubuntu",
+      fontWeight: "700",
       fontSize: "20px",
       marginRight: "44px",
     },
@@ -26,6 +27,7 @@ export const Header = () => {
       textAlign: "center",
       padding: "10px",
       fontFamily: "Ubuntu",
+      fontWeight: "700",
       fontSize: "20px",
       borderRadius: "100px",
       marginRight: "7%",
