@@ -7,6 +7,9 @@ const {
   deleteLink,
 } = require("../controller/linkController");
 
-router.post("/", createLink).get("/", getLinks).delete("/:ids", deleteLink);
-// .get("/:id", getLink)
+router
+  .post("/", createLink)
+  .get("/", getLinks)
+  .get("/:id", getLink)
+  .delete("/", deleteLink);
 module.exports = router;

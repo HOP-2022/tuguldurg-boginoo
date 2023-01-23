@@ -1,1 +1,0 @@
-# tuguldurg-boginoo

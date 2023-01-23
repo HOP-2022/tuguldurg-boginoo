@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-
-export const RecentLink = ({ link }) => {
+export const RecentLink = ({ link, shortLink }) => {
   const styles = {
     container: {
       width: "291px",
@@ -42,11 +39,6 @@ export const RecentLink = ({ link }) => {
       marginLeft: "10px",
     },
   };
-  const url = "http://localhost:8000/";
-  useEffect(() => {
-    axios.get(url, (req, res) => {});
-    return () => {};
-  });
   return (
     <div style={styles.container}>
       <div style={styles.content}>
@@ -56,11 +48,11 @@ export const RecentLink = ({ link }) => {
       <div style={styles.content}>
         <div style={styles.key}>Богино холбоос:</div>
         <div style={styles.copyContainer}>
-          <div style={styles.info}>thtsad dsad</div>
+          <div style={styles.info}>{shortLink}</div>
           <button
             style={styles.copyButton}
             onClick={() => {
-              navigator.clipboard.writeText(link);
+              navigator.clipboard.writeText(shortLink);
             }}
           >
             Хуулж авах

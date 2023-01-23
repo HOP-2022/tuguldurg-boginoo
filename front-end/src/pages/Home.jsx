@@ -1,27 +1,37 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Header } from "../components/Header";
 import { RecentLink } from "../components/RecentLink";
+import axios from "axios";
 import logo from "../assets/boginoo-logo.svg";
 import credit from "../assets/credit.svg";
 import "../assets/App.css";
+import { useParams } from "react-router-dom";
+import { Context } from "../components/HistoryContext";
+import { History } from "../components/History";
 
 export const Home = () => {
   const styles = {
     container: {
       width: "100vw",
-      height: "100vh",
+      height: "auto",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       flexDirection: "column",
     },
     body: {
+      marginTop: "300px",
       width: "789px",
       height: "226px",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "space-between",
+    },
+    history: {
+      overflow: "hidden",
+      minHeight: "0px",
+      width: "789px",
     },
     logo: {
       width: "184px",
@@ -57,27 +67,58 @@ export const Home = () => {
       border: "none",
     },
     credit: {
-      position: "absolute",
-      bottom: "50px",
+      position: "relative",
+      marginTop: "350px",
       width: "225px",
       height: "44px",
       backgroundImage: `url(${credit})`,
     },
   };
-  const [toggle, setToggle] = useState();
   const [link, setLink] = useState("");
+  const [url, setUrl] = useState("");
+  const [shortUrl, setShortUrl] = useState("");
+  const { id } = useParams();
+  const dad = useParams();
+  console.log(dad);
+  const URL = "http://localhost:8000/links";
+  const { history, data } = useContext(Context);
+  console.log(id);
+  if (id) {
+    axios
+      .get(`http://localhost:8000/links/${id}`)
+      .then(function (response) {
+        window.location.replace(response.data.data.link);
+      })
+      .catch(function (error) {
+        window.location.replace("/");
+        console.log(error);
+      });
+  }
+  const linkSender = () => {
+    if (link !== "") {
+      axios
+        .post(URL, {
+          link: link,
+        })
+        .then(function (res) {
+          setUrl(res.data.data.link);
+          setShortUrl("localhost:3000/" + res.data.data._id);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  };
   return (
     <>
       <Header />
       <div style={styles.container}>
-        <div style={styles.credit}></div>
         <div style={styles.body}>
           <div style={styles.logo}></div>
           <form
             style={styles.bottomContainer}
             onSubmit={(e) => {
               e.preventDefault();
-              if (link != "") setToggle(<RecentLink link={link} />);
             }}
           >
             <input
@@ -92,10 +133,19 @@ export const Home = () => {
               type="submit"
               style={styles.shortenButton}
               value="Богиносгох"
+              onClick={linkSender}
             />
           </form>
         </div>
-        {toggle}
+        {url && <RecentLink link={url} shortLink={shortUrl} />}
+        {history
+          ? data.map((el, index) => {
+              return (
+                <History link={el.link} shortLink={el.shortLink} key={index} />
+              );
+            })
+          : ""}
+        <div style={styles.credit}></div>
       </div>
     </>
   );
