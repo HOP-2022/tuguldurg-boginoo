@@ -1,8 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useRef } from "react";
 import { Header } from "../components/Header";
 import logo from "../assets/boginoo-logo.svg";
 import "../assets/App.css";
+import { Footer } from "../components/Footer";
+import axios from "axios";
 
 export const SignUp = () => {
   const styles = {
@@ -38,7 +39,8 @@ export const SignUp = () => {
       height: "44px",
       background: "#FFFFFF",
       border: "1px solid #F0F0F0",
-      boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.16)",
+      boxShadow: "0px 1px 5px gray",
+      outline: "none",
       borderRadius: "100px",
       paddingLeft: "50px",
       fontfamily: "Ubuntu",
@@ -47,7 +49,7 @@ export const SignUp = () => {
       fontSize: "20px",
       lineHeight: "23px",
       color: "#000000",
-      opacity: 0.2,
+      // opacity: 0.2,
     },
     container1: {
       width: "381px",
@@ -98,6 +100,35 @@ export const SignUp = () => {
       color: "#02B589",
     },
   };
+  // const [email, setEmail] = useState()
+  const email = useRef("");
+  const password1 = useRef("");
+  const password2 = useRef("");
+  const URL = 'http://localhost:8000/users'
+
+  const signup = () => {
+    if (
+      email.current.value !== "" &&
+      password1.current.value !== "" &&
+      password2.current.value !== "" &&
+      password1.current.value === password2.current.value
+    ) {
+      axios
+        .post(URL, {
+          email: email.current.value,
+          password: password1.current.value
+        })
+        .then(function (res) {
+          console.log(res.data)
+          // window.location.replace('/login');
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      console.log("no");
+    }
+  };
   return (
     <>
       <Header />
@@ -106,32 +137,40 @@ export const SignUp = () => {
           <img src={logo} alt="" />
           <div style={styles.nevtreh}>Бүртгүүлэх</div>
           <div>
-            <div>Цахим хаяг</div>
+            <div style={{ margin: "0px 0px 3px 15px" }}>Цахим хаяг</div>
             <input
               style={styles.input}
               placeholder="name@mail.domain"
               type="email"
+              ref={email}
             />
           </div>
           <div>
-            <div>Нууц үг</div>
+            <div style={{ margin: "0px 0px 3px 15px" }}>Нууц үг</div>
             <input
               style={styles.input}
               placeholder="••••••••••"
               type="password"
+              ref={password1}
             />
           </div>
           <div>
-            <div>Нууц үгээ давтна уу?</div>
+            <div style={{ margin: "0px 0px 3px 15px" }}>
+              Нууц үгээ давтна уу?
+            </div>
             <input
               style={styles.input}
               placeholder="••••••••••"
               type="password"
+              ref={password2}
             />
           </div>
-          <button style={styles.nevtreh1}>Бүртгүүлэх</button>
+          <button style={styles.nevtreh1} onClick={signup}>
+            Бүртгүүлэх
+          </button>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

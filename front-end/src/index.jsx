@@ -31,7 +31,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <HistoryContext>
     <RouterProvider router={router} />
-    <Footer />
   </HistoryContext>
 );
 

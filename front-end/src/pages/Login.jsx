@@ -1,10 +1,10 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import logo from "../assets/boginoo-logo.svg";
-import credit from "../assets/credit.svg";
-import { Header } from "../components/Header";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import "../assets/App.css";
+import logo from "../assets/boginoo-logo.svg";
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
+import axios from "axios";
 
 export const Login = () => {
   const styles = {
@@ -12,26 +12,22 @@ export const Login = () => {
       width: "100vw",
       height: "100vh",
       display: "flex",
+      flexDirection: "column",
       justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "column",
     },
+    // howItWorks: {
+    //   color: "#02B589",
+    //   fontFamily: "Ubuntu",
+    //   fontStyle: "normal",
+    //   fontWeight: 700,
+    //   fontSize: "25px",
+    //   lineHeight: "23px",
+    //   texTransform: "uppercase",
+    //   paddingLeft: "1600px",
+    //   paddingTop: "50px",
+    // },
     body: {
-      width: "383px",
       height: "601px",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "space-between",
-    },
-    logo: {
-      width: "184px",
-      height: "118px",
-      backgroundImage: `url(${logo})`,
-    },
-    login: {
-      width: "383px",
-      height: "420px",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -53,7 +49,9 @@ export const Login = () => {
       height: "44px",
       background: "#FFFFFF",
       border: "1px solid #F0F0F0",
-      boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.16)",
+      outline: "none",
+      // border: 'none',
+      boxShadow: "0px 1px 5px gray",
       borderRadius: "100px",
 
       paddingLeft: "50px",
@@ -63,7 +61,7 @@ export const Login = () => {
       fontSize: "20px",
       lineHeight: "23px",
       color: "#000000",
-      opacity: 0.2,
+      // opacity: 0.2,
     },
     container1: {
       width: "381px",
@@ -115,44 +113,68 @@ export const Login = () => {
       color: "#02B589",
     },
   };
-  const { loc } = useParams();
-  console.log(loc);
+  const email = useRef("");
+  const password = useRef("");
+  const URL = "http://localhost:8000/users";
+  const login = () => {
+    if (email.current.value !== "" && password.current.value !== "") {
+      axios
+        .get(URL, {
+          email: email.current.value,
+          password: password.current.value,
+        })
+        .then(function (res) {
+          console.log(res);
+          window.location.replace("/");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      console.log("no");
+    }
+  };
   return (
     <>
       <Header />
       <div style={styles.container}>
+        {/* <div style={styles.howItWorks}>xэрхэн ажилладаж вэ?</div> */}
+
         <div style={styles.body}>
-          <div style={styles.logo}></div>
-          <div style={styles.login}>
-            <div style={styles.nevtreh}>Нэвтрэх</div>
-            <div>
-              <div style={{ marginLeft: "15px" }}>Цахим хаяг</div>
-              <input
-                style={styles.input}
-                placeholder="name@mail.domain"
-                type="email"
-              />
-            </div>
-            <div>
-              <div style={{ marginLeft: "15px" }}>Нууц үг</div>
-              <input
-                style={styles.input}
-                placeholder="••••••••••"
-                type="password"
-              />
-            </div>
-            <div style={styles.container1}>
-              <input type="checkbox" style={styles.checkbox} />
-              <div style={styles.namaigsana}>Намайг сана</div>
-              <Link style={styles.link1}>Нууц үгээ мартсан</Link>
-            </div>
-            <button style={styles.nevtreh1}>Нэвтрэх</button>
-            <Link style={styles.link2} to="/signup">
-              Шинэ хэрэглэгч бол энд дарна уу?
-            </Link>
+          <img src={logo} alt="" />
+          <div style={styles.nevtreh}>Нэвтрэх</div>
+          <div>
+            <div style={{ margin: "0px 0px 3px 15px" }}>Цахим хаяг</div>
+            <input
+              style={styles.input}
+              placeholder="name@mail.domain"
+              type="email"
+              ref={email}
+            />
           </div>
+          <div>
+            <div style={{ margin: "0px 0px 3px 15px" }}>Нууц үг</div>
+            <input
+              style={styles.input}
+              placeholder="••••••••••"
+              type="password"
+              ref={password}
+            />
+          </div>
+          <div style={styles.container1}>
+            <input type="checkbox" style={styles.checkbox} />
+            <div style={styles.namaigsana}>Намайг сана</div>
+            <Link style={styles.link1}>Нууц үгээ мартсан</Link>
+          </div>
+          <button style={styles.nevtreh1} onClick={login}>
+            Нэвтрэх
+          </button>
+          <Link style={styles.link2} to="/signup">
+            Шинэ хэрэглэгч бол энд дарна уу?
+          </Link>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

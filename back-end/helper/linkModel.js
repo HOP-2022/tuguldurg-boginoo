@@ -3,7 +3,7 @@ const { model, Schema } = require("mongoose");
 const LinkScheme = new Schema({
   link: String,
   shortLink: String,
-  token: String,
+  email: String,
   date: { type: Date, default: Date.now },
 });
 
