@@ -1,14 +1,15 @@
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = "default_secret";
 
-module.exports.auth = (request, response, next) => {
+exports.auth = (request, response, next) => {
   try {
-    let token = req.headers.authorization;
+    let token = request.headers.authorization;
     if (token) {
       token = token.split(" ")[1];
       let user = jwt.verify(token, SECRET_KEY);
-      req.userId = user.id;
-      req.name = user.name;
+      request.userId = user.id;
+      request.name = user.name;
+      next();
     } else {
       response.status(401).json({ message: "handah erhgui hereglegch bna." });
     }

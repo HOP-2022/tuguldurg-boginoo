@@ -104,7 +104,7 @@ export const SignUp = () => {
   const email = useRef("");
   const password1 = useRef("");
   const password2 = useRef("");
-  const URL = 'http://localhost:8000/users'
+  const URL = "http://localhost:8000/users";
 
   const signup = () => {
     if (
@@ -116,11 +116,11 @@ export const SignUp = () => {
       axios
         .post(URL, {
           email: email.current.value,
-          password: password1.current.value
+          password: password1.current.value,
         })
         .then(function (res) {
-          console.log(res.data)
-          // window.location.replace('/login');
+          console.log(res.data);
+          window.location.replace("/login");
         })
         .catch(function (error) {
           console.log(error);

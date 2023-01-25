@@ -58,7 +58,11 @@ export const Header = () => {
 
   const click = async () => {
     await axios
-      .get(URL, {})
+      .get(URL, {
+        headers: {
+          authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+      })
       .then(function (response) {
         setData(response.data.data);
       })

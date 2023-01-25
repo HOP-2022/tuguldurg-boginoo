@@ -115,16 +115,17 @@ export const Login = () => {
   };
   const email = useRef("");
   const password = useRef("");
-  const URL = "http://localhost:8000/users";
+  const URL = "http://localhost:8000/users/login";
   const login = () => {
     if (email.current.value !== "" && password.current.value !== "") {
       axios
-        .get(URL, {
+        .post(URL, {
           email: email.current.value,
           password: password.current.value,
         })
         .then(function (res) {
           console.log(res);
+          localStorage.setItem("token", res.data.token);
           window.location.replace("/");
         })
         .catch(function (error) {

@@ -1,5 +1,7 @@
+const { application } = require("express");
 const express = require("express");
 const router = express.Router();
+// const auth = require("../middlewares/auth");
 const {
   getLinks,
   getLink,
@@ -7,6 +9,7 @@ const {
   deleteLink,
 } = require("../controller/linkController");
 
+// app.use(auth);
 router
   .post("/", createLink)
   .get("/", getLinks)

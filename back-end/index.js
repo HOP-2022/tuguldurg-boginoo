@@ -9,10 +9,11 @@ const userRoutes = require("./routes/userRoute");
 const cors = require("cors");
 const port = process.env.BACK_END_PORT;
 const app = express();
+const { auth } = require("./middlewares/auth");
 
 app.use(cors());
 app.use(express.json());
-app.use("/links", linkRoutes);
+app.use("/links", auth, linkRoutes);
 app.use("/users", userRoutes);
 app.get("/", (req, res) => {
   res.send("hello");

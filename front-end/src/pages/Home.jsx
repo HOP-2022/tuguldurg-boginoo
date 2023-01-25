@@ -78,11 +78,8 @@ export const Home = () => {
   const [url, setUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const { id } = useParams();
-  const dad = useParams();
-  console.log(dad);
   const URL = "http://localhost:8000/links";
   const { history, data } = useContext(Context);
-  console.log(id);
   if (id) {
     axios
       .get(`http://localhost:8000/links/${id}`)
@@ -97,9 +94,17 @@ export const Home = () => {
   const linkSender = () => {
     if (link !== "") {
       axios
-        .post(URL, {
-          link: link,
-        })
+        .post(
+          URL,
+          {
+            link: link,
+          },
+          {
+            headers: {
+              authorization: `bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
         .then(function (res) {
           setUrl(res.data.data.link);
           setShortUrl("localhost:3000/" + res.data.data._id);
