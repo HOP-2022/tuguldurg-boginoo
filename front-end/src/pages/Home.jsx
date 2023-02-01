@@ -114,6 +114,9 @@ export const Home = () => {
         });
     }
   };
+  const deleteToken = () => {
+    localStorage.removeItem("token");
+  };
   return (
     <>
       <Header />
@@ -144,12 +147,13 @@ export const Home = () => {
         </div>
         {url && <RecentLink link={url} shortLink={shortUrl} />}
         {history
-          ? data.map((el, index) => {
+          ? data?.map((el, index) => {
               return (
                 <History link={el.link} shortLink={el.shortLink} key={index} />
               );
             })
           : ""}
+        <button onClick={deleteToken}>DELETE</button>
         <div style={styles.credit}></div>
       </div>
     </>

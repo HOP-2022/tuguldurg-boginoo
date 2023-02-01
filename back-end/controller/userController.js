@@ -47,3 +47,23 @@ exports.login = async (request, response, next) => {
     response.status(500).json({ message: "ymar neg zuil buruu bna." });
   }
 };
+
+exports.edit = async (request, response, next) => {
+  try {
+    const { email } = request.body;
+    const { status } = request.body;
+    const existingUser = await UserModel.findOneAndUpdate(
+      { email: email },
+      { ...request.body },
+      next()
+    );
+    if (!existingUser) {
+      return response.status(401).json({ message: "email buruu bna" });
+    }
+    console.log(request.body);
+    response.status(201).json({ user: existingUser });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json({ message: "ymar neg zuil buruu bna." });
+  }
+};

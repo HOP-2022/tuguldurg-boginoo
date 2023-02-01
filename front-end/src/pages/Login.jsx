@@ -129,7 +129,7 @@ export const Login = () => {
           window.location.replace("/");
         })
         .catch(function (error) {
-          console.log(error);
+          console.log(error.response.data.message);
         });
     } else {
       console.log("no");

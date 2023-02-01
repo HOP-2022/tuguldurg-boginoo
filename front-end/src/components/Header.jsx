@@ -35,6 +35,7 @@ export const Header = () => {
       fontSize: "20px",
       borderRadius: "100px",
       marginRight: "7%",
+      textDecoration: "none",
     },
     historyButton: {
       width: "183px",
