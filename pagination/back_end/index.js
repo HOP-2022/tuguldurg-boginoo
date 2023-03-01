@@ -16,6 +16,7 @@ app.get("/", (req, res) => {
   res.send("hello");
 });
 
+console.log("ddddd");
 const corsOptions = {
   origin: process.env.FRONT_END,
   credentials: true, //access-control-allow-credentials:true
